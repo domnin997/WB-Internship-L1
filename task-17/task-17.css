@@ -1,0 +1,35 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: rgba(246, 246, 250, 1);
+}
+
+h2 {
+    font-weight: 500;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.input-container {
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.input__header, .input__field {
+    margin: 0 auto;
+    text-align: center;
+    max-width: 500px;
+}
+
+
+.input__field {
+    display: block;
+    outline: none;
+    width: 500px;
+    height: 30px;
+    margin-top: 40px;
+    font-size: 18px;
+}
