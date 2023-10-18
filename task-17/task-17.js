@@ -1,6 +1,7 @@
 const inputField = document.querySelector('.input__field'),
       resultsList = document.querySelector('.input__results-container'),
-      selectList = document.querySelector('.select-list');
+      selectList = document.querySelector('.input__results-list'),
+      currentAddr = document.querySelector('.curr-addr');
 
 const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const token = "f6261f0b9e32a27a7c6279374b7811082f97802e";
@@ -22,8 +23,14 @@ function makeList (result) {
 
     result.forEach((element, index) => {
         // selectList.setAttribute('size', index);
-        let option = document.createElement('option');
+        let option = document.createElement('li');
+        option.classList.add('input__results-item');
         option.innerText = element.value;
+        option.addEventListener('click', () => {
+            currentAddr.innerText = option.innerText;
+            selectList.innerHTML = ' ';
+            inputField.value = ' ';
+        })
         selectList.append(option);
        
     }); 
@@ -49,11 +56,11 @@ function debounce (func, timeout) {
     }
 }
 
-function handleInput (event) {
+function handleInput () {
     
     query = `${inputField.value}`;
     options.body = JSON.stringify({query: query});
-    
+    resultsList.classList.remove('hidden');
     console.log(`Пошел вызов, время ${Date.now()}`)
 
     fetch(url, options)
@@ -65,6 +72,6 @@ function handleInput (event) {
         .catch(error => console.log("error", error));
 }
 
-const debouncedHandler = debounce (handleInput, 300);
+const debouncedHandler = debounce (handleInput, 200);
 
 inputField.addEventListener('input', debouncedHandler);

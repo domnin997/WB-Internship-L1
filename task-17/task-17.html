@@ -7,21 +7,34 @@
     <link rel="stylesheet" href="./task-17.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
           rel="stylesheet">
-    <title>Document</title>
+    <title>Delivery address</title>
 </head>
 <body>
+    
     <div class="input-container">
         <h2 class="input__header">
-            Введите адрес
+            Адрес доставки
         </h2>
-        <input class="input__field"
-               type="text">
-        <div class="input__results-container">
-            <select class="select-list">
-                
-            </select>
+        <div class="addresses__wrapper">
+            <div class="input__wrapper">
+                <input class="input__field"
+                type="text"
+                placeholder="Введите адрес...">
+                <div class="input__results-container hidden">
+                    <ul class="input__results-list">
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="curr-arrd__wrapper">
+                <h3 class="curr-arrd__header">Выбранный адрес:</h3>
+                <div class="curr-addr">
+                    Адрес не выбран
+                </div>
+            </div>
         </div>
     </div>
+
 <script src="./task-17.js"></script> 
 </body>
 </html>

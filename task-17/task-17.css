@@ -13,6 +13,12 @@ select {
     appearance: none;
 }
 
+
+.addresses__wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
 .input-container {
     justify-content: center;
     margin-top: 100px;
@@ -24,7 +30,6 @@ select {
     max-width: 500px;
 }
 
-
 .input__field {
     display: block;
     outline: none;
@@ -32,4 +37,56 @@ select {
     height: 30px;
     margin-top: 40px;
     font-size: 18px;
+    border: none;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    padding: 0px;
+}
+
+.input__results-container {
+    margin: 0 auto;
+}
+
+.input__results-list {
+    margin: 0 auto;
+    padding: 0;
+    border: none;
+    width: 500px;
+}
+
+.input__results-item {
+    min-height: 30px;
+    padding: 5px 0 5px 10px;
+    background-color: white;
+    list-style-type: none;
+    align-items: center;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: lightblue;
+}
+
+.input__results-item:hover {
+    background-color: lightyellow;
+    cursor: pointer;
+}
+
+.curr-arrd__wrapper {
+    margin-top: 40px;
+    width: 500px;
+    height: 200px;
+    background-color:  white;
+    border-radius: 6px;
+}
+
+.curr-arrd__header {
+    text-align: center;
+}
+
+.curr-addr {
+    padding-left: 15px;
+}
+
+.hidden {
+    display: none;
 }
