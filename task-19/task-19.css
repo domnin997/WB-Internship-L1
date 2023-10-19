@@ -4,7 +4,7 @@ body {
 }
 
 .posts-list {
-    width: 510px;
+    width: 610px;
     height: 450px;
     background-color: lightblue;
     border-radius: 6px;
@@ -16,7 +16,7 @@ body {
 
 .posts-list-container {
     margin: 0 auto;
-    width: 500px;
+    width: 600px;
     height: 430px;
     background-color: white;
     border-radius: 2px;
