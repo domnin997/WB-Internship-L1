@@ -1,8 +1,42 @@
+form {
+    margin: 0 auto;
+    width: 400px;
+}
+
 .password-input {
-    width: 300px;
+    width: 400px;
     height: 40px;
+    margin-top: 100%;
+    outline: none;
+    appearance: none;
+    text-align: center;
+    font-size: 18px;
+    border-color: black;
+    border-style: solid;
+}
+
+.password-input:focus {
+    outline: none;
+    appearance: none;
+    border-color: black;
+}
+
+.password-level {
+    margin-top: 20px;
 }
 
 .password-score {
     margin-top: 20px;
+}
+
+.weak:focus {
+    border-color: red;
+}
+
+.medium:focus {
+    border-color: orange;
+}
+
+.good:focus {
+    border-color: green;
 }
