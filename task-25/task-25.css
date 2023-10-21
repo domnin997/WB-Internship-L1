@@ -1,0 +1,8 @@
+.styled_square {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(5, 94, 40);
+    font-weight: 600;
+    color: rgb(223, 149, 65);
+    margin-top: 10px;
+}

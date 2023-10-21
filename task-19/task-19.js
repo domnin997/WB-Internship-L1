@@ -35,6 +35,47 @@ function throttle(callee, timeout) {
 
 const throtlledF = throttle(handleScroll, 250);
 
+function createItem (img, text, likes, date, time, comments) {
+    let newItem = document.createElement('li');
+        newItem.classList.add('posts-list__item');
+        newItem.innerHTML = `
+            <div class="img-text-wrap">
+                <div class="item__img-cont">
+                    <img class="img"
+                        src="${img}"
+                        alt="Error">
+                </div>
+                <div class="item__text-cont">
+                    <p class="item__text">
+                        ${text}
+                    </p>
+                </div>
+            </div>
+            <div class="item__likes-comments">
+                <div class="item__likes-cont">
+                    <img class="like-icon"
+                        src="./icons/like_icon.png"
+                        alt="fav-icon">
+                    <p>${likes}</p>
+                </div>
+                <div class="item__date">
+                    <div class="item__date-cont">
+                        ${date}
+                    </div>
+                    <div class="item__time-cont">
+                        ${time}
+                    </div>
+                </div>
+                <div class="item__comments-cont">
+                    <img class="comment-icon"
+                        src="./icons/comment_icon.svg"
+                        alt="comment-icon">
+                    <p>${comments}</p>
+                </div>
+            </div>`;
+        itemsList.append(newItem);
+}
+
 itemsList.addEventListener('scroll', throtlledF)
 
 const callbackFunc = (resp) => {
@@ -57,47 +98,63 @@ const callbackFunc = (resp) => {
                                         dateNum: item.date,
                                         date: `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`,
                                         time: `${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}`}))
-            let newItem = document.createElement('li');
-        newItem.classList.add('posts-list__item');
-        newItem.innerHTML = `
-        <div class="img-text-wrap">
-            <div class="item__img-cont">
-                <img class="img"
-                    src="${img}"
-                    alt="Error">
-            </div>
-            <div class="item__text-cont">
-                <p class="item__text">
-                    ${item.text}
-                </p>
-            </div>
-        </div>
-        <div class="item__likes-comments">
-            <div class="item__likes-cont">
-                <img class="like-icon"
-                     src="./icons/like_icon.png"
-                     alt="fav-icon">
-                <p>${item.likes.count}</p>
-            </div>
-            <div class="item__date">
-                <div class="item__date-cont">
-                    ${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}
-                </div>
-                <div class="item__time-cont">
-                    ${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}
-                </div>
-            </div>
-            <div class="item__comments-cont">
-                <img class="comment-icon"
-                     src="./icons/comment_icon.svg"
-                     alt="comment-icon">
-                <p>${item.comments.count}</p>
-            </div>
-        </div>
-        `;
-        itemsList.append(newItem);
+            
+            createItem(img, item.text,
+                       item.likes.count,
+                       `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`,
+                       `${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}`,
+                       item.comments.count)
     });
+    } else {
+        resp.response.items.forEach((item, index) => {
+            if (item.date > JSON.parse(localStorage.key(index)).dateNum) {
+                
+            }
+        })
+        
     }
 
     
 }
+
+
+
+//let newItem = document.createElement('li');
+// newItem.classList.add('posts-list__item');
+// newItem.innerHTML = `
+// <div class="img-text-wrap">
+//     <div class="item__img-cont">
+//         <img class="img"
+//             src="${img}"
+//             alt="Error">
+//     </div>
+//     <div class="item__text-cont">
+//         <p class="item__text">
+//             ${item.text}
+//         </p>
+//     </div>
+// </div>
+// <div class="item__likes-comments">
+//     <div class="item__likes-cont">
+//         <img class="like-icon"
+//              src="./icons/like_icon.png"
+//              alt="fav-icon">
+//         <p>${item.likes.count}</p>
+//     </div>
+//     <div class="item__date">
+//         <div class="item__date-cont">
+//             ${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}
+//         </div>
+//         <div class="item__time-cont">
+//             ${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}
+//         </div>
+//     </div>
+//     <div class="item__comments-cont">
+//         <img class="comment-icon"
+//              src="./icons/comment_icon.svg"
+//              alt="comment-icon">
+//         <p>${item.comments.count}</p>
+//     </div>
+// </div>
+// `;
+// itemsList.append(newItem);

@@ -1,0 +1,14 @@
+.list-block {
+    width: 600px;
+    height: 1px;
+    overflow: hidden;
+    transition: 3s ease-in-out;
+}
+
+.list {
+    margin: 0 auto;
+    width: 550px;
+    height: 500px;
+    background-color: aquamarine;
+    transition: 3s;
+}
