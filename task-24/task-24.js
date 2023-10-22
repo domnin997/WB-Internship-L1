@@ -67,15 +67,28 @@ async function firstPageLoad () {
         let newPage = document.createElement('div');
             newPage.innerHTML = `<p class="page-num">${i}</p>`;
             newPage.classList.add('page-num-cont');
+            if (i === 1) {
+                newPage.classList.add('active');
+            }
             newPage.addEventListener('click', () => {
+                
+                document.querySelectorAll('.page-num-cont').forEach((pageNum) => {
+                    pageNum.classList.remove('active');
+                });
+                newPage.classList.add('active');
+                
+                tableHeaders.forEach((header) => {
+                    header.classList.remove('active');
+                });
+                
                 updTable(i);
             });
-            pagesCont.append(newPage);
+        pagesCont.append(newPage);
     }
 }
 
-// функция примет номер страницы, кликнутой в панели навигации и на его основании изменит диапазон отображения,
-// сформировав новую страницу с помощью createRows
+// функция примет номер страницы, кликнутой в панели навигации и на его основании
+// изменит диапазон отображения + сформирует новую страницу с помощью createRows
 function updTable (page) {
     number = page*50;
     offset = number - 50;
@@ -85,9 +98,8 @@ function updTable (page) {
 }
 
 function sortTable (column, ascendSort) {
-    let arr = Array.from(document.querySelectorAll('.table-body__row'));
     
-    arr.sort((a, b) => {
+    Array.from(document.querySelectorAll('.table-body__row')).sort((a, b) => {
         
         let firstRow = a.querySelectorAll('.table-body__col')[column].textContent.toLocaleLowerCase(),
             secondRow = b.querySelectorAll('.table-body__col')[column].textContent.toLocaleLowerCase();
