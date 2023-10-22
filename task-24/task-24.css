@@ -1,6 +1,7 @@
 body {
     background-color: rgb(230, 230, 230);
-    font-family: Roboto sans-serif;
+    font-family: 'Roboto';
+    margin: 0;
 }
 
 table {
@@ -8,18 +9,22 @@ table {
     border-collapse: collapse;
     margin: 0 auto;
     width: 1000px;
-}
-
-.table-caption {
-    background-color: antiquewhite;
-    border-style: solid;
-    border-width: 2px;
-    font-size: 20px;
-    padding: 5px;
+    margin-top: 25px;
 }
 
 .table-header {
+    border: 1px solid black;
     width: 1000px;
+}
+
+.table-caption {
+    background-color: #3D5D6B;
+    border: none;
+    color: #FFB18A;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 8px 8px 0 0;
 }
 
 .table-body {
@@ -29,16 +34,40 @@ table {
 
 .table-header__col {
     width: 120px;
-    border-style: solid;
+    border: 1px solid #3D5D6B;
     border-width: 2px;
-    background-color: antiquewhite;
+    background-color: #9dafb9;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.table-header__col:hover {
+    border-bottom: 2px solid #FFB18A;
+}
+
+.table-header__arrow {
+    font-size: 10px;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-block;
+    transition: 0.3s ease-in-out;
+}
+
+.table-body__row {
+    width: 1000px;
 }
 
 .table-body__col {
     width: 120px;
-    border-style: solid;
+    display: table-cell;
+    border-bottom: solid;
+    border-top: none;
+    border-left: solid;
+    border-right: solid;
     border-width: 1px;
     font-weight: 400;
+    padding: 10px 0 10px 0;
+    text-align: center;
 }
 
 .pages-wrapper {
@@ -74,4 +103,13 @@ table {
 .page-num {
     font-size: 10px;
     margin: 0;
+}
+
+.ascend span.table-header__arrow {
+    transform: rotate(180deg);
+}
+
+.active {
+    background-color: #3D5D6B;
+    color: #FFB18A;
 }
