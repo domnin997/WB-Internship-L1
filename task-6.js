@@ -1,8 +1,11 @@
 // Задача 6.
-// Написать функцию сортировки массив объектов по возрастанию возраста.
 
-arra = [{
-    name: 'aib',
+// Написать функцию сортировки массив объектов по возрастанию возраста.
+// При равных возрастах сортирует по алфавиту по полю name.
+
+// Массив для тестирования работы функции
+usersArr = [{
+    name: 'Aic',
     age: 25,
 }, {
     name: 'Elena',
@@ -17,12 +20,37 @@ arra = [{
     name: 'Abram',
     age: 31,
 }, {
-    name: 'Aic',
+    name: 'Aib',
     age: 25,
-}
-]
+}];
 
-function sortArr (arr) {
+// Решение 1. С помощью встроенного метода sort
+
+function sortFunc1 (arr) {
+    
+    arr.sort((a,b) => {
+    // если вернуть отрицательное значение, то метод
+    // поставит элемент a перед b в итоговом массиве
+        if (a.age < b.age) {
+            return -1;
+
+    // если возраст одинаковый, выстроим элементы, сравнив имена
+        } else if (a.age === b.age) {
+            return (a.name < b.name) ? -1 : 1;  
+        
+        } else {
+            return 1;
+        }
+    })
+
+    return arr;
+}
+
+console.log(sortFunc1(usersArr));
+
+// Решение 2 - с использованием алгоритма быстрой сортировки
+
+function sortFunc2 (arr) {
 
     if (arr.length < 2) return arr;
 
@@ -43,10 +71,7 @@ function sortArr (arr) {
             }  
         }
         
-        return sortArr(left).concat(arr[0], sortArr(right));
+        return sortFunc2(left).concat(arr[0], sortFunc2(right));
     }
 
-
-let total = sortArr(arra);
-
-console.log(total);
+console.log(sortFunc2(usersArr));

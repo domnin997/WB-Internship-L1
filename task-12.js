@@ -15,16 +15,18 @@ const book_1 = {
 // Для работы со свойствами объектов в функции-методе
 // используем ключевое слово this - контекст вызова.
 // При вызове обычной функции в качестве метода
-// это слово будет указывать на объект, которому принадлежит метод.
+// this будет указывать на объект, которому принадлежит метод.
 
     setTitle (newTitle) {
-        this.title = newTitle; // Обратимся к свойству title этого объекта и присвоим новое значение.
+    // Обратимся к свойству title этого объекта и присвоим значение аргумента.
+        this.title = newTitle;
     },
 
     getTitle () {
-        return this.title; // Аналогично с чтением.
+    // Аналогично с чтением, но без перезаписи.
+        return this.title;
     },
-
+    
     setAuthor (newAuthor) {
         this.author = newAuthor;
     },
@@ -42,12 +44,6 @@ const book_1 = {
     },
 
 }
-
-// Ниже пример использования и выведение результатов в консоль.
-
-console.log(book_1.getTitle());
-book_1.setTitle('Vanity Fair'); 
-console.log(book_1.getTitle());
 
 // Решение 2. С помощью свойств-аксессоров - set / get.
 
@@ -85,3 +81,7 @@ const book_2 = {
         this.publisedAt = value;
     },
 }
+
+// в отличие от методов, с get / set можно работать как со свойствами 
+book_2.bookAuthor = 'Mike Tyson';
+console.log(book_2.bookAuthor);
