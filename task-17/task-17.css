@@ -13,7 +13,6 @@ select {
     appearance: none;
 }
 
-
 .addresses__wrapper {
     display: flex;
     justify-content: space-around;
