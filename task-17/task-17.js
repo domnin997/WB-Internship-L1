@@ -7,6 +7,8 @@ const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/addres
 const token = "f6261f0b9e32a27a7c6279374b7811082f97802e";
 let query = "";
 
+
+// Настройки, предлагаемые самой DaData 
 const options = {
     method: "POST",
     mode: "cors",
@@ -18,6 +20,7 @@ const options = {
     body: JSON.stringify({query: query})
 }
 
+// Постройка списка на основании полученных данных
 function makeList (result) {
    selectList.innerHTML = ' ';
 
@@ -32,7 +35,6 @@ function makeList (result) {
             inputField.value = ' ';
         })
         selectList.append(option);
-       
     }); 
 }
 
