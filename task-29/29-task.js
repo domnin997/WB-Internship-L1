@@ -23,7 +23,6 @@ function manageInput () {
     document.querySelector('body').append(infoWindow);
 }
 
-
 document.querySelector('.submit-btn').addEventListener('click', (e) => {
     e.preventDefault();
         manageInput();

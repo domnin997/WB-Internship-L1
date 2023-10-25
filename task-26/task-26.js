@@ -17,7 +17,6 @@ function showEachNode (node) {
         for (let i = 0; i < node.childNodes.length; i++) {
             showEachNode(node.childNodes[i]);
         }
-    
     }
 }
 

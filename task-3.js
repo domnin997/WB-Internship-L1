@@ -78,8 +78,8 @@ const MathX = {
                 let prime = true;
     
                 for (let i = 2; i < curr; i++) {
-    // если число не делится на 2 (само 2 не попадает в эту проверку), то оно не простое
-    // переходим к следующей итерации
+    // если число делится на какое-либо иное, кроме себя, то оно не простое
+    
                     if (curr % i === 0) {
                         prime = false;
                         break;
@@ -130,6 +130,4 @@ const MathX = {
 }
 
 console.log(MathX.getNFib(90));
-// console.log(MathX.getFibSeq(90));
-// console.log(MathX.getNPrime(67));
-console.log(MathX.getPrimeSeq(67));
+console.log(MathX.getNPrime(8));

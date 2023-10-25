@@ -121,16 +121,3 @@ const JSONStringify = (obj) => {
     }
   };
   
-
-  const sampleObj = {
-    name: 'Sid',
-    age: 29,
-    engineer: true,
-    expertise: ['html', 'css', 'react'],
-    address: {
-      city: 'New york',
-      state: 'NY'
-    }
-  };
-  
-  console.log(JSON.stringify(sampleObj), JSONStringify(sampleObj));

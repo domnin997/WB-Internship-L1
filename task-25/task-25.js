@@ -23,7 +23,6 @@ function addStyledEl1 () {
 
 addStyledEl1();
 
-
 // Решение 2 - стилизация через классы
 
 function addStyledEl2 () {

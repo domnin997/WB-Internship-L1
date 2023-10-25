@@ -79,12 +79,3 @@ class Circle extends Shape {
         return 2*this.piNum*this.radius;
     }
 }
-
-const figure = new Shape(5);
-const rect = new Rectangle(3, 6);
-const trian = new Triangle(4, 4, 5, 6);
-const circ = new Circle (6);
-console.log(figure.getArea());
-console.log(rect.getArea());
-console.log(trian.getArea());
-console.log(circ.getPerimeter())
