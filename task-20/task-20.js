@@ -4,11 +4,38 @@ const itemsList = document.querySelector('.posts-list-container'),
 let offset = 10;
 let firstUpdCall = true;
 
-// firstUpdCall влияет на то, извлекаем ли мы данные из LS для отрисовки
-// или же они уже были отрисованы, и мы добавляем новые из ответа на запрос
+// функция подсчета занятого места и итогового размера LS
 
-// для избежания блокировок запросов по CORS используем JSONP
-// для обновления данных и догрузки нам нужно будет менять элемент script на странице
+function occupiedAndAvailableLS () {
+// принцип как в задаче 18, но также добавим проверку занятого сейчас места
+// для этого весь LS переведем в строку (формат JSON), и на основе её длины рассчитаем объем занятого места
+    let currStored = Math.round((JSON.stringify(localStorage).length/1024)*2);
+    console.log(`Занято ${currStored} килобайт`);
+
+// Далее как в задаче 18.
+    let testValue = 'A'.repeat(100000);
+    for (let i = 0, total = testValue; ; i++) {
+        try {
+            localStorage.setItem('test-item', total);
+            total = total + testValue;
+        } catch (e) {
+            const valueStored = Math.round((localStorage['test-item'].length*2)/1024);
+                console.log('Всего размер хранилища ' + valueStored + ' килобайт');
+                
+                localStorage.removeItem('test-item');
+                
+                break;
+        }
+    }
+}
+
+// чтобы не вызывать функцию на каждый добавленный элемент (вычисления занимают время),
+// будем вызывать её далее по коду только после того, как уже добавлены все элементы одного обновления
+
+// PS так как оценка итогового размера основана на добавлении 100 000 букв,
+// при добавлении в LS постов оценка итога может меняться, т.к. ошибка quota будет выбрасываться раньше
+
+
 function updScript () {
     document.querySelector('script').remove();
     let script = document.createElement('SCRIPT');
@@ -18,36 +45,31 @@ function updScript () {
     offset+=10;
 }
 
-// при приближении к концу списка будем вызывать обновление листа
 function handleScroll () {
     if (itemsList.scrollHeight - itemsList.scrollTop < 450) {
         updScript();
     }
 }
 
-// вызов обновления при прокрутке следует вызывать один раз в определенный промежуток времени
-// в противном случае будет направлена серия запросов. Для этого используем функцию throttle
 function throttle(callee, timeout) {
     let timer = null
   
     return function perform(...args) {
-        if (timer) return
+      if (timer) return
   
-        timer = setTimeout(() => {
-            callee(...args)
+      timer = setTimeout(() => {
+        callee(...args)
   
         clearTimeout(timer)
-            timer = null
+        timer = null
       }, timeout)
     }
 }
 
-// обернем обработчик прокрутки в throttle и зададим интервал в 250 миллисекунд
 const throtlledF = throttle(handleScroll, 250);
 
 itemsList.addEventListener('scroll', throtlledF)
 
-// создадим функцию добавления элемента в список на основании полученных данных
 function appendItem  (img, text, likes, date, time, comments) {
     let newItem = document.createElement('li');
     newItem.classList.add('posts-list__item');
@@ -91,8 +113,7 @@ function appendItem  (img, text, likes, date, time, comments) {
 }
 
 function getImg (item) {
-// в разных постах изображения хранятся в разных объектах
-// проведем проверку и вернем ссылку
+
     let img;
     if (item.attachments[0].photo) {
         img = item.attachments[0].photo.sizes[0].url;
@@ -103,8 +124,7 @@ function getImg (item) {
 }
 
 function setToLS (item, index, img, date) {
-// функция запишет в LS объект с данными о посте в формате JSON
-// имя будет даваться на основании количества уже загруженных элементов
+
     localStorage.setItem(`item${(offset-10)+index}`, JSON.stringify({
         img: img,
         text: item.text,
@@ -113,11 +133,11 @@ function setToLS (item, index, img, date) {
         dateNum: item.date,
         date: `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`,
         time: `${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}`}))
+
 }
 
 const callbackFunc = (resp) => {
-// если LS пуст, то пользователь открыл страницу первый раз
-// переберем результаты ответа от сервера и сформируем первые 10 постов
+
     if (localStorage.length === 0) {
         
         resp.response.items.forEach((item, index) => {
@@ -125,24 +145,23 @@ const callbackFunc = (resp) => {
             let date = new Date(item.date*1000);
             let img = getImg(item);
             setToLS(item, index, img, date);
-    // сразу запишем полученные данные в LS      
+            
+     
             appendItem (img, item.text,
                        item.likes.count,
                        `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`,
                        `${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}`,
                        item.comments.count)
-    // и добавим в виджет
+
     });
-    
-    // страница была открыта - переводим значение в false
+    occupiedAndAvailableLS ();
     firstUpdCall = false;
     
     } else {
-    // если в LS есть данные и это первый вызов upd
-    // (пользователь вернулся на страницу после закрытия)
+
 
     if (firstUpdCall) {
-    // используем массив, чтобы сортировать элементы и искать наиболее свежие посты
+
         let posts = [];
 
         for (let i = 0; i < localStorage.length; i++) {
@@ -150,23 +169,22 @@ const callbackFunc = (resp) => {
             let key = localStorage.key(i);
             let itemContent = localStorage.getItem(key);
             let objCont = JSON.parse(itemContent);
-        // выгрузим все посты в массив
+
             posts.push(objCont);
 
             offset+=1;   
         }
-        // отсортируем массив по дате постов, чтобы отобразить их в нужном порядке
-        // а также выяснить, есть ли более свежие посты в ответе сервера
+
         posts.sort((a, b) => {return b.dateNum - a.dateNum})
 
         resp.response.items.forEach((item, index) => {
-        // переберем данные, пришедшие от сервера, и если там есть более свежие посты, 
-        // добавим их в LS, а затем в начало массива постов 
+ 
             if (item.date > posts[0].dateNum) {
                 
                 let date = new Date(item.date*1000);
                 let img = getImg(item);
                 setToLS(item, index, img, date);
+                
 
             posts.unshift({
                 img: img,
@@ -180,6 +198,8 @@ const callbackFunc = (resp) => {
             }
         })
 
+        occupiedAndAvailableLS ();
+
         posts.forEach((post) => {
             appendItem (post.img, post.text, post.likes, post.date, post.time, post.comments);
         })
@@ -187,20 +207,21 @@ const callbackFunc = (resp) => {
         firstUpdCall = false;
     }
 
-    // если это не первый вызов upd, значит, это дозагрузка по скроллу
-    // переберем полученные от сервера данные и запишем в LS
     else if (!firstUpdCall) {
         resp.response.items.forEach((item, index) => {
             let date = new Date(item.date*1000);
             let img = getImg(item);
                 setToLS(item, index, img, date);
+              
         appendItem (img, item.text,
                     item.likes.count,
                     `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`,
                     `${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}`,
                     item.comments.count)
             }
+            
         )
+        occupiedAndAvailableLS ();
     }
 }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./task-20.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+          rel="stylesheet">
+    <title>VK Widget</title>
+</head>
+
+<body>
+<script type="text/javascript">
+    const script = document.createElement('SCRIPT');
+          script.src = "https://api.vk.com/method/wall.get?owner_id=-15755094&domain=ria&offset=0&count=10&access_token=21e2edca21e2edca21e2edcaed22f4ed37221e221e2edca44d2eb64da388c98e9eba618&v=5.154&callback=callbackFunc";
+          document.getElementsByTagName("head")[0].appendChild(script);
+</script>
+    <div class="VK-widget">
+        <h1 class="VK-widget__h1">
+            РИА Новости
+        </h1>
+        <h2 class="VK-widget_h2">
+            Лента новостей из сообщества ВК
+        </h2>
+        
+        <div class="posts-list">
+            <ul class="posts-list-container">
+
+            </ul>
+        </div>
+    </div>
+    <script src="./task-20.js"></script>
+</body>
+</html>

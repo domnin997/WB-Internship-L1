@@ -1,9 +1,11 @@
 // Задача 9
 
 // Реализовать функцию конвертации JSON в строку
+// + согласно комментариям в ТГ канале, требуется аналог parse()
+
+// Решение
 
 const parseJSON = function (json) {
-  // Higher-order function to be used for detecting type
   
   const firstAndLastChars = function (first, last) {
     return (str) => str[0] === first && str[str.length - 1] === last
@@ -11,7 +13,7 @@ const parseJSON = function (json) {
 
   const isArray = firstAndLastChars('[', ']'); // определяем по крайним символам, является ли строка массивом
   const isObj = firstAndLastChars('{', '}'); // аналогично с объектом
-  const hasDoubleQuotes = firstAndLastChars('"', '"');
+  const hasDoubleQuotes = firstAndLastChars('"', '"'); // и строками
   const hasSingleQuotes = firstAndLastChars("'", "'");
   const isNumber = (str) => (+(str)) + '' === str;
 
@@ -19,90 +21,112 @@ const parseJSON = function (json) {
     str = str.trim()
     return (hasSingleQuotes(str) || hasDoubleQuotes(str)) && str[str.length - 2] !== '\\';
   }
-
+  
   const removeFirstAndLastChar = function (str) {
     str = str.trim();
     return str.slice(1, str.length - 1) || '';
   };
-  
-  // Higher-order function to be used for splitting string
 
-  const splitByChar = function (base_char) {
+  const splitBySymb = function (baseSymb) {
     
     return function (str) {
       let result = [];
-      let double_string_open = false;
-      let single_string_open = false;
-      let array_open = false;
-      let object_open = false;
-      let array_bracket_count = 0;
-      let object_bracket_count = 0;
-      let curr_str = '';
-      let prev_ch = '';
+      let doubleStrOpen = false;
+      let singleStrOpen = false;
+      let arrOpen = false;
+      let objOpen = false;
+      let arrBracketCount = 0;
+      let objBracketCount = 0;
+      let currStr = '';
+      let prevSymb = '';
       
+      // проведем проверку каждого символа строки
       for (let i = 0; i < str.length; i += 1) {
-        var ch = str[i]
-        if (ch === '"') {
-          double_string_open = !double_string_open
+        let symb = str[i]
+
+        if (symb === '"') {
+          doubleStrOpen = !doubleStrOpen;
         }
-        if (ch === "'") {
-          single_string_open = !single_string_open
+
+        if (symb === "'") {
+          singleStrOpen = !singleStrOpen;
         }
-        if (ch === '[') {
-          array_bracket_count += 1
-          array_open = true
+
+        if (symb === '[') {
+          arrBracketCount += 1;
+          arrOpen = true;
         }
-        if (ch === ']') {
-          array_bracket_count -= 1
-          if (array_bracket_count === 0) {
-            array_open = false
+
+        if (symb === ']') {
+          arrBracketCount -= 1;
+          if (arrBracketCount === 0) {
+            arrOpen = false;
           }
         }
-        if (ch === '{') {
-          object_bracket_count += 1
-          object_open = true
+
+        if (symb === '{') {
+          objBracketCount += 1;
+          objOpen = true;
         }
-        if (ch === '}') {
-          object_bracket_count -= 1
-          if (object_bracket_count === 0) {
-            object_open = false
+
+        if (symb === '}') {
+          objBracketCount -= 1;
+          if (objBracketCount === 0) {
+            objOpen = false;
           }
         }
-        if (ch === base_char && !double_string_open && !single_string_open && !array_open && !object_open) {
-          if (curr_str !== '') result.push(curr_str.trim())
-          curr_str = ''
-          prev_ch = ''
+        
+        // если символ является , или : (в зависимости от аргумента),
+        // и этот символ не находится внутри вложенного объекта, массива или строки
+        // то поместим строку в массив результатов
+
+        if (symb === baseSymb && !doubleStrOpen && !singleStrOpen && !arrOpen && !objOpen) {
+          if (currStr !== '') result.push(currStr.trim())
+          currStr = '';
+          prevSymb = '';
+        // иначе запишем символ в строку
         } else {
-          curr_str += ch
-          prev_ch = ch
+          currStr += symb;
+          prevSymb = symb;
         }
       }
-      if (curr_str !== '') result.push(curr_str.trim())
-      return result
+      
+      if (currStr !== '') result.push(currStr.trim())
+        return result
     };
   }
 
-  const separeateStringByCommas = splitByChar(',');
-  const separeateStringByColons = splitByChar(':');
+  const separeateStringByCommas = splitBySymb(',');
+  const separeateStringByColons = splitBySymb(':');
 
-  const parseJSONString = function (str, parent) {
+  const parseJSONString = function (str) {
     
     str = str.trim();
 
     if (isArray(str)) {
+      // проверим, является ли строка массивом, и если да
+      // то разобьем её на массивы по запятой и вызовем функцию рекурсивно в отношении резульатов
       return separeateStringByCommas(removeFirstAndLastChar(str)).map(parseJSONString);
     };
 
     if (isObj(str)) {
-      var obj = {}
-      var _obj = separeateStringByCommas(removeFirstAndLastChar(str))
-      // _obj is an array of strings with 'key: value'
-      _obj.forEach(function (val, i) {
-        var key_val_pair = separeateStringByColons(val) // split into key, value
-        if (key_val_pair.length === 2) {
-          obj[parseJSONString(key_val_pair[0])] = parseJSONString(key_val_pair[1])
+      
+      let obj = {};
+
+      let objParsed = separeateStringByCommas(removeFirstAndLastChar(str));
+      
+      // objParsed будет содержать массив строк с ключами и значениями
+
+      objParsed.forEach(function (val, i) {
+      // переберем эти строки и каждую разобьем по двоеточию
+        let keyValPair = separeateStringByColons(val) // передаем строку на разделение
+        if (keyValPair.length === 2) {
+          // в отношении и ключа, и значения вызываем parseJSONString
+          // и результаты запишем как ключ - значение возвращаемого объекта
+            obj[parseJSONString(keyValPair[0])] = parseJSONString(keyValPair[1])
         }
       })
+      
       return obj
     }
 
@@ -119,13 +143,17 @@ const parseJSON = function (json) {
 
 }
 
-console.log(JSON.stringify({
-      name: 'Sid',
-      age: 29,
-      engineer: true,
-      expertise: ['html', 'css', 'react'],
-      address: {
-        city: 'New york',
-        state: 'NY'
-      }
-}))
+// далее идет пример для теста
+
+let testJSON =  JSON.stringify({
+  name: 'Yan',
+  age: 29,
+  engineer: true,
+  expertise: ['html', 'css', 'react'],
+  address: {
+    city: 'Moscow',
+    state: 'Rus'
+  }
+})
+
+console.log(parseJSON(testJSON));

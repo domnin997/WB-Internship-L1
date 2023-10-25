@@ -31,7 +31,7 @@ function createRows (arr) {
 tableHeaders.forEach((header, index) => {    
     // каждой ячейке заголовка создадим состояние, отображающее направление сортировки; возрастание по умолчанию
     let ascendSort = true;
-        header.addEventListener('click', (e) => {
+        header.addEventListener('click', () => {
     // при клике на ячейку заголовка будем устанаволивать ей класс "активно" и снимать с остальных       
             tableHeaders.forEach((header) => {
                 header.classList.remove('active');
@@ -55,7 +55,7 @@ async function firstPageLoad () {
         throw new Error(`Error - something went wrong!`);
     }
     // запишем ответ в формате JSON в заранее созданную переменную
-    // json() также вернет промис, поэтому используем await и дождемся выполнения
+    // json() асинхронен, поэтому используем await и дождемся выполнения
     receivedData = await response.json();
 
     // из полученной информации сформируем строки первой страницы

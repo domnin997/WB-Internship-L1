@@ -7,7 +7,7 @@
 
 function addStyledEl1 () {
     const newEl = document.createElement('div');
-    
+    // запишем инлайн стили
     newEl.style.cssText = `
         width: 100px;
         height: 100px;

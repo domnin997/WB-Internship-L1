@@ -61,7 +61,7 @@ class Triangle extends Shape {
     }
 }
 
-class Circle extends Shape { // тут должна быть бОльшая сторона.
+class Circle extends Shape {
     
     constructor (radius) {
 

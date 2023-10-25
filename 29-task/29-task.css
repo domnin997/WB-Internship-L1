@@ -1,0 +1,33 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 500px;
+    background-color: beige;
+}
+
+.form {
+    max-width: 200px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.info-window {
+    width: 80%;
+    height: 250px;
+    background-color: beige;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
