@@ -31,7 +31,7 @@ function func1 () {
     return new Promise (resolve => setTimeout(resolve, 5000));
 }
 
-async function func2 () {
+function func2 () {
     return new Promise (resolve => setTimeout(resolve, 2500));
 }
 
@@ -39,8 +39,8 @@ async function func2 () {
 // Запрос разрешается выведением кода статуса ответа.
 
 async function func3 () {
-    return fetch('https://images.unsplash.com/photo-1695982207544-843360e56f41?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80')
-        .then((result) => {console.log(result.status)});
+    let result = await fetch('https://images.unsplash.com/photo-1695982207544-843360e56f41?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+    console.log(result.status);
 }
 
 let asyncFuncArr = [func1, func2, func3]; 
