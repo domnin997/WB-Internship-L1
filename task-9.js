@@ -38,7 +38,6 @@ const parseJSON = function (json) {
       let arrBracketCount = 0;
       let objBracketCount = 0;
       let currStr = '';
-      let prevSymb = '';
       
       // проведем проверку каждого символа строки
       for (let i = 0; i < str.length; i += 1) {
@@ -83,11 +82,9 @@ const parseJSON = function (json) {
         if (symb === baseSymb && !doubleStrOpen && !singleStrOpen && !arrOpen && !objOpen) {
           if (currStr !== '') result.push(currStr.trim())
           currStr = '';
-          prevSymb = '';
         // иначе запишем символ в строку
         } else {
           currStr += symb;
-          prevSymb = symb;
         }
       }
       
@@ -117,7 +114,7 @@ const parseJSON = function (json) {
       
       // objParsed будет содержать массив строк с ключами и значениями
 
-      objParsed.forEach(function (val, i) {
+      objParsed.forEach(function (val) {
       // переберем эти строки и каждую разобьем по двоеточию
         let keyValPair = separeateStringByColons(val) // передаем строку на разделение
         if (keyValPair.length === 2) {

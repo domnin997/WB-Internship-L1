@@ -3,6 +3,13 @@ body {
     background-color: rgba(246, 246, 250, 1);
 }
 
+.VK-widget {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .posts-list {
     width: 610px;
     height: 450px;

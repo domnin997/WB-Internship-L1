@@ -5,11 +5,10 @@
 // на сервер или отображает всплывающее окно с результатами.
 
 function manageInput () {
-    let form = document.querySelector('.form');
+    const form = document.querySelector('.form');
     // создадим экземпляр FormData и передадим туда форму со страницы
-        let data = new FormData(form);
+    const data = new FormData(form);
     // FormData будет хранить данные из формы в формате ключ - значение
-
     const userInfo = [];
     // переберем введенные данные из FormData и запишем в массив
         for (let [key, value] of data) {

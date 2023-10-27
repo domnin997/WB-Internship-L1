@@ -40,23 +40,26 @@ function makeList (result) {
     }); 
 }
 // создадим функцию debounce, которая будет откладывать
-// вызов обработчика события input на 0,2 секунды
+// вызов обработчика события input на 0,3 секунды
 
 function debounce (func, timeout) {
 
+    let currCall,
+        callTimer;
+        
     return function () {
 // в переменной prevCall будет храниться время прошлого вызова
 // а в currCall - текущего  
-        let prevCall = this.currCall;
-        this.currCall = Date.now();
-
+        let prevCall = currCall;
+        currCall = Date.now();
+        
 // если промежуток между вводами меньше, чем наш интервал
 // то очищаем таймаут и отодвигаем вызов на очередной интервал   
-        if (prevCall && this.currCall - prevCall <= timeout) {
-            clearTimeout(this.callTimer);
+        if (prevCall && currCall - prevCall <= timeout) {
+            clearTimeout(callTimer);
         }
 
-        this.callTimer = setTimeout(() => func(), timeout);
+        callTimer = setTimeout(() => func(), timeout);
     }
 }
 
@@ -76,6 +79,6 @@ function handleInput () {
         .catch(error => console.log("error", error));
 }
 
-// обернем обработчик в функцию, откладывающую его срабатывание на 0,2 секунды
-const debouncedHandler = debounce (handleInput, 200);
+// обернем обработчик в функцию, откладывающую его срабатывание на 0,3 секунды
+const debouncedHandler = debounce (handleInput, 300);
 inputField.addEventListener('input', debouncedHandler);

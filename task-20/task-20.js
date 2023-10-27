@@ -124,16 +124,31 @@ function getImg (item) {
 }
 
 function setToLS (item, index, img, date) {
-
-    localStorage.setItem(`item${(offset-10)+index}`, JSON.stringify({
-        img: img,
-        text: item.text,
-        likes: item.likes.count,
-        comments: item.comments.count,
-        dateNum: item.date,
-        date: `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`,
-        time: `${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}`}))
-
+    try {
+        localStorage.setItem(`item${(offset-10)+index}`, JSON.stringify({
+            img: img,
+            text: item.text,
+            likes: item.likes.count,
+            comments: item.comments.count,
+            dateNum: item.date,
+            dateOfLoad: new Date().getTime(),
+            date: `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()}`,
+            time: `${date.getHours()}:${date.getMinutes() > 10 ? date.getMinutes() : date.getMinutes()+'0'}`}))
+    } catch (e) { 
+        let date = new Date ();
+        let keyToBeDel;
+        for (let i = 0; i < localStorage.length; i++) {
+            
+            let key = localStorage.key(i);
+            let itemContent = localStorage.getItem(key);
+            let objCont = JSON.parse(itemContent);
+            if (objCont.dateOfLoad < date) {
+                keyToBeDel = i;
+            }
+        }
+        localStorage.removeItem(keyToBeDel);
+        setToLS (item, index, img, date);  
+    }
 }
 
 const callbackFunc = (resp) => {

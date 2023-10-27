@@ -1,3 +1,7 @@
+// Задача 23
+
+// Анализатор сложности пароля
+
 const passTips = document.querySelector('.password-tips'),
       passLvl = document.querySelector('.password-level'),
       passInput = document.querySelector('.password-input');
@@ -18,8 +22,8 @@ function validatePass () {
 // при наличии недостатка снизим итоговый балл и запишем рекомендацию в блок
         strength -= defect.decrease;
         const message = document.createElement('li');
-            message.innerHTML = defect.message;
-            passTips.append(message);
+              message.innerHTML = defect.message;
+              passTips.append(message);
     })
 
 // Покажем пользователю надежность на основании балла
@@ -31,6 +35,8 @@ function validatePass () {
         passLvl.innerText = `Надежный пароль. Безопасность: ${strength}%`;
     }
 
+    // В зависимости от надежности пароля будем менять цвет
+    // border input в состоянии фокуса (зеленый, желтый, красный)
     toggleColor(strength);
 }
 
@@ -57,7 +63,7 @@ function checkLength (pass) {
 
 // создадим единую функцию для: регистра, чисел и символов
 function checkCharacters (pass, regex, type) {
-    const result = pass.match(regex) || [];
+    const result = pass.match(regex) || []; // match вернет массив совпадений
 
     if (result.length === 0) {
         return {
@@ -92,10 +98,10 @@ function checkSymbols (pass) {
 }
 
 function toggleColor (score) {
-    if (score > 80) {
+    if (score === 100) {
         passInput.classList.remove('weak','medium');
         passInput.classList.add('good');
-    } else if (50 < score && score <= 80) {
+    } else if (50 < score && score <= 99) {
         passInput.classList.remove('good','weak');
         passInput.classList.add('medium');
     } else {
